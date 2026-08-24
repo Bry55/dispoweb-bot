@@ -372,7 +372,11 @@ def scan_lieu(client: DispoWebClient, cfg: Config, id_lieu, wk_monday, seen) -> 
         key = slot_key(id_lieu, slot)
         if key not in seen:
             seen.add(key)
-            msg = f"{wk_monday.isoformat()} - {json.dumps(slot, ensure_ascii=False, default=str)[:200]}"
+            heure = slot.get("heure")
+            minute = slot.get("minute")
+            date_txt = slot_date.strftime("%d.%m.%Y") if slot_date else "date inconnue"
+            heure_txt = f"{heure:02d}:{minute:02d}" if heure is not None and minute is not None else "heure inconnue"
+            msg = f"{date_txt} a {heure_txt} - lieu {id_lieu}"
             notify("Creneau moto disponible !", msg, cfg)
             if cfg.auto_book:
                 try:
