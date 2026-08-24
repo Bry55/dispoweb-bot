@@ -35,8 +35,8 @@ jobs:
           DISPOWEB_GENRE: "PRATIQUEMOTO"
           DISPOWEB_TYPE: "PRATIQUEMOTO"
           DISPOWEB_LIEUX: "SANCAROUGE"
-          DISPOWEB_MAX_WEEKS_AHEAD: "9"
-          DISPOWEB_NEAR_WEEKS: "9"
+          DISPOWEB_MAX_WEEKS_AHEAD: "21"
+          DISPOWEB_NEAR_WEEKS: "21"
           DISPOWEB_AUTO_BOOK: "false"
         run: python dispoweb_bot.py --once
 
