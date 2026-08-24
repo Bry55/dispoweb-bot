@@ -1,0 +1,51 @@
+name: DispoWeb watch
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: dispoweb-watch
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installer les dependances
+        run: pip install -r requirements.txt
+
+      - name: Lancer une verification
+        env:
+          DISPOWEB_NIP: ${{ secrets.DISPOWEB_NIP }}
+          DISPOWEB_BIRTHDAY: ${{ secrets.DISPOWEB_BIRTHDAY }}
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
+          WHATSAPP_APIKEY: ${{ secrets.WHATSAPP_APIKEY }}
+          DISPOWEB_CATEGORIE: "A"
+          DISPOWEB_ID_GROUPE_EXAMEN: "EXAMENCONDUITE"
+          DISPOWEB_GENRE: "PRATIQUEMOTO"
+          DISPOWEB_TYPE: "PRATIQUEMOTO"
+          DISPOWEB_LIEUX: "SANCAROUGE"
+          DISPOWEB_MAX_WEEKS_AHEAD: "9"
+          DISPOWEB_NEAR_WEEKS: "9"
+          DISPOWEB_AUTO_BOOK: "false"
+        run: python dispoweb_bot.py --once
+
+      - name: Sauvegarder l'etat (creneaux deja vus)
+        run: |
+          if ! git diff --quiet -- seen_slots.json; then
+            git config user.name "dispoweb-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add seen_slots.json
+            git commit -m "Mise a jour de l'etat des creneaux vus [skip ci]"
+            git push
+          fi

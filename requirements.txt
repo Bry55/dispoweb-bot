@@ -1,0 +1,4 @@
+requests>=2.31
+python-dotenv>=1.0
+plyer>=2.1
+tzdata>=2024.1
