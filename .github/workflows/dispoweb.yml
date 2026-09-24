@@ -35,11 +35,10 @@ jobs:
           DISPOWEB_GENRE: "PRATIQUEMOTO"
           DISPOWEB_TYPE: "PRATIQUEMOTO"
           DISPOWEB_LIEUX: "SANCAROUGE"
-          DISPOWEB_MAX_WEEKS_AHEAD: "21"
-          DISPOWEB_NEAR_WEEKS: "21"
+          DISPOWEB_MAX_WEEKS_AHEAD: "25"
+          DISPOWEB_NEAR_WEEKS: "25"
           DISPOWEB_AUTO_BOOK: "false"
-          # TEST TEMPORAIRE - a retirer une fois le nouvel affichage WhatsApp confirme
-          DISPOWEB_CUTOFF_OVERRIDE: "21.01.2027"
+          DISPOWEB_CUTOFF_OVERRIDE: "15.03.2027"
         run: python dispoweb_bot.py --once
 
       - name: Sauvegarder l'etat (creneaux deja vus)
